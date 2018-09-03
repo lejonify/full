@@ -1,6 +1,7 @@
 import React from 'react';
 import {init, Provider, Consumer} from 'sprakjs';
 import Test from './Test';
+import Test2 from './Test2';
 
 const core = init({
   live: true,
@@ -29,5 +30,6 @@ export default () => (
       )}
     </Consumer>
     <Test />
+    <Test2 />
   </Provider>
 );

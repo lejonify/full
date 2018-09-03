@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const firebase = require('firebase/app');
 require('firebase/database');
 
@@ -13,8 +14,6 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
-const ref = firebase.database().ref();
-
 module.exports = {
-  ref,
+  ref: firebase.database().ref(),
 };

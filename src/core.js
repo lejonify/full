@@ -34,18 +34,22 @@ export default class Core {
     }
     this.options = Object.assign(defaultOptions, options);
 
-    if (options.live && process.env.NODE_ENV === 'development') {
-      if (Object.keys(this.options.translations).length > 0) {
-        this.warn('Running live, not using any local translations...');
+    if (process.env.NODE_ENV === 'development') {
+      if (options.live) {
+        if (Object.keys(this.options.translations).length > 0) {
+          this.warn('Running live, not using any local translations...');
+        }
+        this.options.translations = {};
+        const langref = ref.child(
+          `/projects/${options.projectId}/translations/`,
+        );
+        langref.on('value', snapshot => {
+          const translations = snapshot.val();
+          this.gotInitialRemoteTranslations = true;
+          this.options.translations = translations;
+          this.listeners.forEach(listener => listener(translations));
+        });
       }
-      this.options.translations = {};
-      const langref = ref.child(`/projects/${options.projectId}/translations/`);
-      langref.on('value', snapshot => {
-        const translations = snapshot.val();
-        this.gotInitialRemoteTranslations = true;
-        this.options.translations = translations;
-        this.listeners.forEach(listener => listener(translations));
-      });
     }
   }
 

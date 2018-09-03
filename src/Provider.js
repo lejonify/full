@@ -12,12 +12,14 @@ export default class LanguageProvider extends Component {
       this.setState(({language}) => ({language}));
     });
   }
+
   setLanguage(language) {
     this.props.core.setLanguage(language);
     this.setState({
       language,
     });
   }
+
   render() {
     return (
       <Provider
